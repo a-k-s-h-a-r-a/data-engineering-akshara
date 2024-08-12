@@ -26,7 +26,7 @@ services:
       - MYSQL_USER=akshara
       - MYSQL_PASSWORD=ppp
       - MYSQL_DATABASE=test-akshara
-
+  #
   summary-output:
     build:
       context: .
