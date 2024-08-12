@@ -1,0 +1,42 @@
+services:
+  database:
+    image: mysql:8.0
+    platform: linux/amd64
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=test-akshara
+      - MYSQL_USER=akshara
+      - MYSQL_PASSWORD=ppp
+    ports:
+      - "3306:3306"
+    restart: always
+
+  data-loader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    volumes:
+      - ./data:/data
+    environment:
+      - MYSQL_HOST=database
+      - MYSQL_USER=akshara
+      - MYSQL_PASSWORD=ppp
+      - MYSQL_DATABASE=test-akshara
+
+  summary-output:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    volumes:
+      - ./data:/data
+    environment:
+      - MYSQL_HOST=database
+      - MYSQL_USER=akshara
+      - MYSQL_PASSWORD=ppp
+      - MYSQL_DATABASE=test-akshara
